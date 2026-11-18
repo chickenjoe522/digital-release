@@ -2,7 +2,7 @@
   "id": "com.digitalrelease.yts.catalog",
   "version": "1.0.0",
   "name": "Digital Release",
-  "description": "Latest English Movies 2026",
+  "description": "Digital Release",
   "resources": [
     "catalog",
     "meta"
@@ -17,7 +17,7 @@
     {
       "type": "movie",
       "id": "digital_latest_2026",
-      "name": "Latest English Movies 2026"
+      "name": "Digital Release"
     }
   ]
 }
