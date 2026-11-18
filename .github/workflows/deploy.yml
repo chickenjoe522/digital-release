@@ -1,3 +1,4 @@
+
 name: Digital Release Deployment
 
 on:
@@ -10,32 +11,55 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
+      - name: Verify files
+        run: |
+          ls -la
+          test -f manifest.json
+          test -f build.py
+
       - name: Build catalog
-        run: python build.py
+        run: python -u build.py
 
-      - uses: actions/configure-pages@v5
+      - name: Verify generated files
+        run: |
+          test -f site/manifest.json
+          test -f site/catalog/movie/digital_latest_2026.json
+          cat site/catalog/movie/digital_latest_2026.json
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
         with:
           path: site
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     environment:
       name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - uses: actions/deploy-pages@v4
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
