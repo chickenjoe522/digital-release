@@ -1,0 +1,17 @@
+
+{
+  "id": "com.digitalrelease.yts.catalog",
+  "version": "1.0.0",
+  "name": "Digital Release",
+  "description": "Latest 2026 movie metadata catalog",
+  "resources": ["catalog", "meta"],
+  "types": ["movie"],
+  "idPrefixes": ["tt"],
+  "catalogs": [
+    {
+      "type": "movie",
+      "id": "digital_latest_2026",
+      "name": "Latest Movies 2026"
+    }
+  ]
+}
